@@ -9,5 +9,8 @@ router.get('/getTask/:ID', taskController.getTaskByID);
 router.patch('/updateStatus/:ID', taskController.updateStatus);
 router.put('/updateTask/:ID', taskController.updateTask);
 router.delete('/deleteTask/:ID', taskController.deleteTask);
-
+router.get('/getcompletedTask',taskController.getcompltedtask);
+router.get('/getpendingtask',taskController.getpendingtask);
+router.get('/getinprogresstask' , taskController.getinprogresstask);
+router.get('/gettasksbystatus' , taskController.gettasksbystatus);
 module.exports = router;

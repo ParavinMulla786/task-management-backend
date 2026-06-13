@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const Task = require("../models/taskModels");
 
 
@@ -184,6 +185,105 @@ async function deleteTask(req, res) {
     });
   }
 }
+
+
+async function getcompltedtask(req, res) {
+  try {
+    
+   const task =  await Task.findAll({where:{status:"Completed"}});
+
+    res.status(200).send({
+      success: true,
+      msg:"All Completed Task",
+      data:task,
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).send({
+      success: false,
+      msg: "Server Error",
+    });
+  }
+}
+async function getpendingtask(req, res) {
+  try {
+    
+   const task =  await Task.findAll({where:{status:"Pending"}});
+
+    res.status(200).send({
+      success: true,
+      msg:"All Pending Task",
+      data:task,
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).send({
+      success: false,
+      msg: "Server Error",
+    });
+  }
+}
+
+
+async function getinprogresstask(req, res) {
+  try {
+    
+   const task =  await Task.findAll({where:{status:"Inprogress"}});
+
+    res.status(200).send({
+      success: true,
+      msg:"All InProgress Task",
+      data:task,
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).send({
+      success: false,
+      msg: "Server Error",
+    });
+  }
+}
+
+async function gettasksbystatus(req, res) {
+  try {
+    const {status} = req.query;
+   const task =  await Task.findAll({where:{status}});
+
+
+   const validstatus = ["Pending" , "InProgress", "Completed"];
+
+
+   if(!validstatus.includes(status)){
+    res.status(404).send({
+      msg:"Invalid Status",
+    })
+      
+   }
+
+
+   
+
+    res.status(200).send({
+      success: true,
+      msg:"All InProgress Task",
+      data:task,
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).send({
+      success: false,
+      msg: "Server Error",
+    });
+  }
+}
 module.exports = {
   createTask,
   getAllTasks,
@@ -191,4 +291,24 @@ module.exports = {
   updateStatus,
   updateTask,
   deleteTask,
+  getcompltedtask,
+  getpendingtask,
+  getinprogresstask,
+  gettasksbystatus,
 };
+
+
+
+// getcompltedtask
+// getpendingtask
+// getinprogresstask
+
+// queryurl
+
+// gettasksbystatus 
+// gettasksbyselectedmonth  --- type month   monthwise
+
+
+
+
+

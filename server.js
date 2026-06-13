@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const taskRouter = require("./routes/taskRoutes");
+const userRouter = require("./routes/userRoute")
 const connectDb  = require('./config/db.js')
 
 const app = express();
@@ -16,7 +17,7 @@ app.get("/", (req, res) => {
 
 // Attach the router here
 app.use("/task", taskRouter);
-
+app.use("/user" , userRouter);
 const port = process.env.PORT || 5005;
 
 app.listen(port, () => {
