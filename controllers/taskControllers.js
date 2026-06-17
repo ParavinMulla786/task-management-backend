@@ -303,7 +303,7 @@ module.exports = {
 // getpendingtask
 // getinprogresstask
 
-// queryurl
+
 
 // gettasksbystatus 
 // gettasksbyselectedmonth  --- type month   monthwise
