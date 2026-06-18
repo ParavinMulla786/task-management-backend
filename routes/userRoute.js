@@ -7,8 +7,10 @@ const {
   getUserInfo,
 } = require("../controllers/userController");
 
+const { auth } = require("../middleware/auth");
+
 router.post("/register", register);
 router.post("/login", login);
-router.get("/profile/:id", getUserInfo);
+router.get("/profile", auth, getUserInfo);
 
 module.exports = router;

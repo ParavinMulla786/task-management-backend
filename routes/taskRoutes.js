@@ -13,4 +13,5 @@ router.get('/getcompletedTask',taskController.getcompltedtask);
 router.get('/getpendingtask',taskController.getpendingtask);
 router.get('/getinprogresstask' , taskController.getinprogresstask);
 router.get('/gettasksbystatus' , taskController.gettasksbystatus);
+router.get('/gettasksbyselectedmonth', taskController.gettasksbyselectedmonth);
 module.exports = router;

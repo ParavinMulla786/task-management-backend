@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const bcryptjs = require("bcryptjs");
-
+const jwt = require('jsonwebtoken');
+require("dotenv").config();
 // Register
 const register = async (req, res) => {
   try {
@@ -58,7 +59,6 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check user
     const existingUser = await User.findOne({
       where: { email },
     });
@@ -70,7 +70,6 @@ const login = async (req, res) => {
       });
     }
 
-    // Compare password
     const isPassCorrect = await bcryptjs.compare(
       password,
       existingUser.password
@@ -83,10 +82,27 @@ const login = async (req, res) => {
       });
     }
 
+    const token = jwt.sign(
+      {
+        id: existingUser.id,
+        role: existingUser.role,
+      },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: "2h",
+      }
+    );
+
     res.status(200).send({
       success: true,
       msg: "Login successful",
-      data: existingUser,
+      token,
+      data: {
+        id: existingUser.id,
+        name: existingUser.name,
+        email: existingUser.email,
+        role: existingUser.role,
+      },
     });
   } catch (error) {
     console.log(error);
@@ -101,9 +117,11 @@ const login = async (req, res) => {
 // View Profile
 const getUserInfo = async (req, res) => {
   try {
-    const user = await User.findByPk(req.params.id, {
+    console.log("Logged In User:", req.user);
+
+    const user = await User.findByPk(req.user.id, {
       attributes: {
-        exclude: ["password"],
+        exclude: ["password", "createdAt", "updatedAt"],
       },
     });
 
@@ -114,16 +132,17 @@ const getUserInfo = async (req, res) => {
       });
     }
 
-    res.status(200).send({
+    return res.status(200).send({
       success: true,
       data: user,
     });
+
   } catch (error) {
     console.log(error);
 
-    res.status(500).send({
+    return res.status(500).send({
       success: false,
-      msg: "Server Error",
+      msg: error.message,
     });
   }
 };
