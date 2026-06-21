@@ -3,8 +3,10 @@ const cors = require("cors");
 require("dotenv").config();
 
 const taskRouter = require("./routes/taskRoutes");
-const userRouter = require("./routes/userRoute")
-const connectDb  = require('./config/db.js')
+const userRouter = require("./routes/userRoute");
+const assignTaskRouter = require("./routes/assignedTaskRoutes");
+
+const connectDb = require("./config/db");
 
 const app = express();
 
@@ -15,9 +17,11 @@ app.get("/", (req, res) => {
   res.send("Server running");
 });
 
-// Attach the router here
 app.use("/task", taskRouter);
-app.use("/user" , userRouter);
+app.use("/user", userRouter);
+
+app.use("/assign-task", assignTaskRouter);
+
 const port = process.env.PORT || 5005;
 
 app.listen(port, () => {

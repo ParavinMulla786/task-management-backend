@@ -1,5 +1,5 @@
 const { where } = require("sequelize");
-const Task = require("../models/taskModels");
+const Task = require("../models/taskModel");
 
 
 async function createTask(req, res) {
