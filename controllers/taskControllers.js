@@ -352,8 +352,3 @@ module.exports = {
 
 // gettasksbystatus 
 // gettasksbyselectedmonth  --- type month   monthwise
-
-
-
-
-
