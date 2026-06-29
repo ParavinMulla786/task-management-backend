@@ -32,9 +32,14 @@ const User = sequelize.define("User", {
     allowNull: false,
     unique: true,
     validate: {
-      len: [10, 10], // exactly 10 digits
+      len: [10, 10],
       isNumeric: true,
     },
+  },
+
+  imgPath: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
 
   role: {
