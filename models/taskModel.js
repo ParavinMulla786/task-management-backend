@@ -6,8 +6,8 @@ const Task = sequelize.define(
   {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
       autoIncrement: true,
+      primaryKey: true,
     },
 
     title: {
@@ -20,25 +20,33 @@ const Task = sequelize.define(
       allowNull: false,
     },
 
+    priority: {
+      type: DataTypes.ENUM("Low", "Medium", "High"),
+      defaultValue: "Medium",
+    },
+
     status: {
-      type: DataTypes.ENUM("Pending", "Inprogress", "Completed"),
-      allowNull: false,
+      type: DataTypes.ENUM(
+        "Pending",
+        "In Progress",
+        "Completed"
+      ),
       defaultValue: "Pending",
     },
 
     startDate: {
-      type: DataTypes.DATE,
-      allowNull: true,
+      type: DataTypes.DATEONLY,
+      allowNull: false,
     },
 
     endDate: {
-      type: DataTypes.DATE,
-      allowNull: true,
+      type: DataTypes.DATEONLY,
+      allowNull: false,
     },
   },
   {
-    timestamps: true,
     tableName: "task",
+    timestamps: true,
   }
 );
 

@@ -1,7 +1,8 @@
 const { where } = require("sequelize");
 const Task = require("../models/taskModel");
 
-
+const AssignTask = require("../models/assignTaskModel");
+const User = require("../models/userModel");
 async function createTask(req, res) {
   try {
     const { title, description, startDate, endDate } = req.body;
@@ -44,24 +45,35 @@ async function createTask(req, res) {
 
 async function getAllTasks(req, res) {
   try {
-    const task = await Task.findAll();
+    const tasks = await Task.findAll({
+      include: [
+        {
+          model: AssignTask,
+          as: "assignments",
+          include: [
+            {
+              model: User,
+              as: "user",
+              attributes: ["id", "name", "email"],
+            },
+          ],
+        },
+      ],
+    });
+
     res.status(200).send({
-  success: true,
-  data: task,
-});
-    
-  } 
-  catch (error) {
-  console.log("Error:", error.message);
-  console.log(error);
+      success: true,
+      data: tasks,
+    });
+  } catch (error) {
+    console.log(error);
 
-  res.status(500).send({
-    success: false,
-    msg: error.message,
-  });
+    res.status(500).send({
+      success: false,
+      msg: error.message,
+    });
+  }
 }
-}
-
 
 async function getTaskByID(req, res) {
   try {
